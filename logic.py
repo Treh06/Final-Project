@@ -3,7 +3,14 @@ from gui import *
 
 
 class Logic(QMainWindow, Ui_FinalProject):
+    """
+    THIS CLASS IS FOR THE BANK APP LOGIC
+    """
     def __init__(self, balance = 0):
+        """
+        THIS METHOD HIDES THE UI, HIDES PASSWORD AND PEFORMS LOGIC FOR THE BUTTONS
+        :param balance: SETS BALANCE TO 0
+        """
         super().__init__()
         self.setupUi(self)
 
@@ -31,12 +38,20 @@ class Logic(QMainWindow, Ui_FinalProject):
         self.update_submit_button()
 
     def submit_button(self):
+        """
+        THIS IS THE LOGIC FOR WHEN THE SUBMIT BUTTON IS CLICKED, IT CHECKS IF "SIGN IN" OR "CREATE ACCOUNT"
+        BUTTON IS CHECKED
+        """
         if self.radioButton_sign_in.isChecked():
             self.sign_in()
         elif self.radioButton_create_account.isChecked():
             self.create_account()
 
     def sign_in(self):
+        """
+        THIS METHOD IS FOR WHEN THE USER SIGNS IN, IT SEARCHER WITHIN USER_INFO.TXT TO MAKE SURE THE USER HAS AN ACCOUNT
+
+        """
         account_num = self.input_account_num.text().strip()
         pin = self.input_pin.text().strip()
 
@@ -59,6 +74,10 @@ class Logic(QMainWindow, Ui_FinalProject):
                 f'We could not find your account. select on create account above to make an account.')
 
     def account_num(self):
+        """
+        THIS METHOD CREATES THE USER AN ACCOUNT #
+        :return: RETURNS ACCOUNT #
+        """
         account_number = 1
         try:
             with open('user_info.txt', 'r') as user_info:
@@ -72,6 +91,9 @@ class Logic(QMainWindow, Ui_FinalProject):
             pass
         return account_number
     def create_account(self):
+        """
+        THIS METHOD IS FOR CREATING USERS AN ACCOUNT, IT SAVES THEIR NAME, PIN, AND ACCOUNT # WITHIN USER_INFO
+        """
         first_name = self.input_first_name.text().strip()
         last_name = self.input_last_name.text().strip()
         pin = self.input_pin.text().strip()
@@ -97,12 +119,18 @@ class Logic(QMainWindow, Ui_FinalProject):
             self.label_account_num_2.setText(f'You have been assigned account number {account_number}. Use it to log in.')
 
     def enter_button(self):
+        """
+        THIS METHOD IS FOR WHEN THE USER SELECTS "WITHDRAW" OR "DEPOSIT"
+        """
         if self.radioButton_deposit.isChecked():
             self.deposit()
         elif self.radioButton_withdraw.isChecked():
             self.withdraw()
 
     def withdraw(self):
+        """
+        THIS METHOD CHECKS THE USER'S BALANCE AND WITHDRAW'S MONEY FROM USER_INFO.TXT
+        """
         try:
             amount = float(self.input_amount_text.text())
         except ValueError:
@@ -123,6 +151,9 @@ class Logic(QMainWindow, Ui_FinalProject):
 
 
     def deposit(self):
+        """
+        THIS METHOD IS USED TO DEPOSIT ONTO THE USER'S BALANCE WITHIN USER_INFO.TXT
+        """
         try:
             amount = float(self.input_amount_text.text())
         except ValueError:
@@ -137,13 +168,20 @@ class Logic(QMainWindow, Ui_FinalProject):
             self.Label_account_balance.setText(f'You successfully deposited ${amount:.2f} Your account balance is now ${total:.2f}')
             self.update_balance()
 
-    def set_balance(self, value):
+    def set_balance(self, value)  -> float:
+        """
+        THIS METHOD IS FOR SETTING THE USER'S BALANCE
+        :param value: USER'S BALANCE
+        """
         if value < 0:
             self.__account_balance = 0
         else:
             self.__account_balance = value
 
     def update_balance(self):
+        """
+        THIS METHOD UPDATES THE USER'S BALANCE
+        """
         account_num = self.input_account_num.text().strip()
         pin = self.input_pin.text().strip()
 
@@ -163,6 +201,10 @@ class Logic(QMainWindow, Ui_FinalProject):
         except IOError:
             pass
     def update_enter_button(self):
+        """
+        THIS METHOD CLEARS TEXT WITHIN INPUT BOXES AND CHANGES THE TEXTS ON THE BUTTON
+        :return:
+        """
         if self.radioButton_deposit.isChecked():
             self.input_amount_text.clear()
             self.Label_account_balance.clear()
@@ -174,6 +216,9 @@ class Logic(QMainWindow, Ui_FinalProject):
         else:
             self.pushButton_enter.setText('Enter')
     def update_submit_button(self):
+        """
+        THIS METHOD CLEARS, HIDES, AND SHOW TEXT BOXES AND LABELS WHEN THE SUBMIT BUTTON IS CLICKED
+        """
         if self.radioButton_sign_in.isChecked():
             self.input_account_num.show()
             self.label_account_num.show()
@@ -213,11 +258,17 @@ class Logic(QMainWindow, Ui_FinalProject):
             self.pushButton_submit.setText('Create Account')
 
     def log_out(self):
+        """
+        THIS METHOD IS FOR WHEN USER'S LOG OUT
+        """
         self.clear_text()
         self.hide_ui()
         self.radioButton_sign_in.setChecked(True)
 
     def hide_main_ui(self):
+        """
+        THIS METHOD HIDES THE MAIN UI
+        """
         self.input_first_name.hide()
         self.input_last_name.hide()
         self.label_first_name.hide()
@@ -228,6 +279,9 @@ class Logic(QMainWindow, Ui_FinalProject):
         self.input_pin.hide()
         self.pushButton_submit.hide()
     def hide_ui(self):
+        """
+        THIS METHOD HIDES SOME OF THE UI
+        """
         self.radioButton_deposit.hide()
         self.radioButton_withdraw.hide()
         self.label_amount.hide()
@@ -235,6 +289,9 @@ class Logic(QMainWindow, Ui_FinalProject):
         self.pushButton_enter.hide()
         self.pushButton_log_out.hide()
     def show_ui(self):
+        """
+        THIS METHOD SHOWS THE UI
+        """
         self.radioButton_deposit.show()
         self.radioButton_withdraw.show()
         self.label_amount.show()
@@ -242,6 +299,9 @@ class Logic(QMainWindow, Ui_FinalProject):
         self.pushButton_enter.show()
         self.pushButton_log_out.show()
     def clear_text(self):
+        """
+        THIS METHOD CLEARS TEXT
+        """
         self.input_first_name.clear()
         self.input_last_name.clear()
         self.input_pin.clear()
